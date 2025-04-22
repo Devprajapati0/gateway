@@ -1,5 +1,5 @@
-import React from 'react';
-
+"use client"
+import React from 'react'
 const Page = () => {
   const handleRedirect = () => {
     window.location.href = 'https://buy.stripe.com/test_bIY6py8a2aAG7uw3cc'; // Replace with your desired URL
