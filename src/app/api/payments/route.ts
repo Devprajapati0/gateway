@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe"
-const stripe_secret_key = "sk_test_51RFZywIR3kvZWYIJ5V9O7EKvQfywJiJ447vhNNrAUuYu7QeFb35ozRcjWljqYd3Y4nir8OjNfaBKmlJF2NNEwzA600nAdIr9gs"
+const stripe_secret_key = process.env.STRIPE_SECRET_KEY!
 // const stripe_publishable_key = "pk_test_51RFZywIR3kvZWYIJoa4cAmV8FxMQivdslQsR7RDipajzlbaxplpj0q4cUn6KVECQlkxnVD4NMlFsB4pKxofQZbcp00UQcfKp5v"
 
 const stripe = new Stripe(stripe_secret_key);
