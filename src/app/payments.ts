@@ -55,6 +55,7 @@ async function createUpdateduser({
                 name,
                 cusomerid,
                 priceid,
+                status: "active",
             });
             await newUser.save();
             console.log("User created successfully");
@@ -103,5 +104,34 @@ async function createPayment({
     } catch (error) {
         console.log("Error creating payment:", error);
         throw new Error("Error creating payment");
+    }
+}
+
+export async function handleSubsciptionDeleted({
+    session_Id_del,
+    stripe
+}:{
+    session_Id_del:string,
+    stripe:Stripe
+}) {
+    await dbConnect();
+    try {
+        const session = await stripe.checkout.sessions.retrieve(session_Id_del);
+        const customerid = session.customer as string;
+        const subscription = await stripe.subscriptions.retrieve(session_Id_del);
+        const status = subscription.status;
+        console.log("Subscription was deleted!",subscription);
+        console.log("status:",status);
+        if(status === "canceled"){
+            await User.findOneAndUpdate(
+                { cusomerid: customerid },
+                { status: "inactive" },
+                { new: true }
+            );
+            console.log("User status updated to inactive");
+        }
+    } catch (error) {
+        console.log("Error handling subscription deletion:", error);
+        throw new Error("Error handling subscription deletion");
     }
 }

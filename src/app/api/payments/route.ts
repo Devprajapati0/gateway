@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe"
-import { handleCheckoutSessipnCompleyted } from "@/app/payments";
+import { handleCheckoutSessipnCompleyted ,handleSubsciptionDeleted} from "@/app/payments";
 import dbConnect from "@/db";
 
 const stripe_secret_key = process.env.STRIPE_SECRET_KEY!
@@ -34,6 +34,9 @@ export const POST = async (req: Request) => {
       case 'customer.subscription.deleted':
         const subscription = event.data.object;
         console.log("Subscription was deleted!",subscription);
+        const session_Id_del = event.data.object.id;
+
+        await handleSubsciptionDeleted({session_Id_del,stripe})
         break;
         default:
         console.log(`Unhandled event type ${event.type}`);

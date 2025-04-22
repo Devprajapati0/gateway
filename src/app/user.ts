@@ -1,3 +1,4 @@
+
 import mongoose ,{Schema,} from "mongoose";
 
 
@@ -20,7 +21,12 @@ const userSchema:Schema =new Schema({
    },
    priceid:{
          type:String,
-   }
+   },
+   status:{
+       type:String,
+       enum:["active","inactive"],
+         default:"inactive",
+    },
 })
 
 export const User = mongoose.models.User ||  mongoose.model('User',userSchema)
